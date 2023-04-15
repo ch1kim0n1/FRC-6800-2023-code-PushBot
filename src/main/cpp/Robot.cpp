@@ -1,8 +1,3 @@
-//You can tune the P gain to achieve the desired response of the arm motion. 
-//Increasing the P gain will make the arm move faster but can also cause overshoot and oscillations. 
-//The I and D gains can be added to improve the response and stability of the arm motion. 
-//You can experiment with different values to find the best performance for your robot.
-
 #include "Robot.h"
 #include "RobotContainer.h"
 #include "PID.h"
@@ -92,9 +87,6 @@ class Robot : public frc::TimedRobot {
     //motor speed and rotation variables from controller for ArcadeDrive
     double speed = controller.GetLeftY(); 
     double rotation = controller.GetRightX();
-    //sqrt the results for the smoothest speed
-    double SQRTspeed = sqrt(speed); 
-    double SQRTrotation = sqrt(rotation);
 
     //main drive function 
     m_robotDrive.ArcadeDrive(speed * Totsens, rotation * m_rot);
@@ -111,12 +103,9 @@ class Robot : public frc::TimedRobot {
   }
 
   void AutonomousPeriodic() override {
-    double recangle = frc::SmartDashboard::GetNumber("Hor Angle", 0);
 
     //initial values for the auto
     int x = frc::SmartDashboard::GetNumber("Delay (Sec)", 0);
-    //inital speed of the intake is 40% for the sake of testing
-    double intakeSpeed = frc::SmartDashboard::GetNumber("Intake Speed", 0.4);
     
     //get the selected auto option
     std::string selectedOption = m_chooser.GetSelected();

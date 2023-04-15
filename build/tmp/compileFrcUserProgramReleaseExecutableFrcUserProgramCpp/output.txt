@@ -1,0 +1,21 @@
+See file:///C:/Users/skyla/Desktop/copy/FRC-6800-2023-Pushbot/build/tmp/compileFrcUserProgramReleaseExecutableFrcUserProgramCpp/output.txt for all output for compileFrcUserProgramReleaseExecutableFrcUserProgramCpp.
+compiling Robot.cpp successful.
+C:\Users\skyla\Desktop\copy\FRC-6800-2023-Pushbot\src\main\cpp\Robot.cpp: In member function 'virtual void Robot::TeleopPeriodic()':
+C:\Users\skyla\Desktop\copy\FRC-6800-2023-Pushbot\src\main\cpp\Robot.cpp:91:12: warning: unused variable 'sensLeft' [-Wunused-variable]
+   91 |     double sensLeft = frc::SmartDashboard::GetNumber("Left Motor Limit", 1); //65%? 0.65
+      |            ^~~~~~~~
+C:\Users\skyla\Desktop\copy\FRC-6800-2023-Pushbot\src\main\cpp\Robot.cpp:92:12: warning: unused variable 'sensRight' [-Wunused-variable]
+   92 |     double sensRight = frc::SmartDashboard::GetNumber("Right Motor Limit", 1);
+      |            ^~~~~~~~~
+C:\Users\skyla\Desktop\copy\FRC-6800-2023-Pushbot\src\main\cpp\Robot.cpp:102:12: warning: unused variable 'SQRTspeed' [-Wunused-variable]
+  102 |     double SQRTspeed = sqrt(speed);
+      |            ^~~~~~~~~
+C:\Users\skyla\Desktop\copy\FRC-6800-2023-Pushbot\src\main\cpp\Robot.cpp:103:12: warning: unused variable 'SQRTrotation' [-Wunused-variable]
+  103 |     double SQRTrotation = sqrt(rotation);
+      |            ^~~~~~~~~~~~
+C:\Users\skyla\Desktop\copy\FRC-6800-2023-Pushbot\src\main\cpp\Robot.cpp: In member function 'virtual void Robot::AutonomousPeriodic()':
+C:\Users\skyla\Desktop\copy\FRC-6800-2023-Pushbot\src\main\cpp\Robot.cpp:125:12: warning: unused variable 'intakeSpeed' [-Wunused-variable]
+  125 |     double intakeSpeed = frc::SmartDashboard::GetNumber("Intake Speed", 0.4);
+      |            ^~~~~~~~~~~
+
+Finished compileFrcUserProgramReleaseExecutableFrcUserProgramCpp, see full log file:///C:/Users/skyla/Desktop/copy/FRC-6800-2023-Pushbot/build/tmp/compileFrcUserProgramReleaseExecutableFrcUserProgramCpp/output.txt.

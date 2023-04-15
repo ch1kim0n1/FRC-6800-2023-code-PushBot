@@ -9,7 +9,7 @@
 
   //auto options
   frc::SendableChooser<std::string> m_chooser;
-  const std::string kAutoOptions[] = { "NONE", "R_Left", "R_Mid", "R_Right", "IntakeBR", "IntakeGOBR", "TEST", "IntakeGO", "IntakeGOHARD"};
+  const std::string kAutoOptions[] = { "NONE", "ShortGo", "LongGo"};
 
 
 
@@ -51,14 +51,8 @@ class Robot : public frc::TimedRobot {
     
     //list of Auto Options
     m_chooser.SetDefaultOption("NONE", kAutoOptions[0]);
-    m_chooser.AddOption("R_Left", kAutoOptions[1]);
-    m_chooser.AddOption("R_Mid", kAutoOptions[2]);
-    m_chooser.AddOption("R_Right", kAutoOptions[3]);
-    m_chooser.AddOption("IntakeBR", kAutoOptions[4]);
-    m_chooser.AddOption("IntakeGOBR", kAutoOptions[5]);
-    m_chooser.AddOption("TEST", kAutoOptions[6]);
-    m_chooser.AddOption("IntakeGO", kAutoOptions[7]);
-    m_chooser.AddOption("IntakeGOHARD", kAutoOptions[8]);
+    m_chooser.AddOption("ShortGo", kAutoOptions[1]);
+    m_chooser.AddOption("LongGo", kAutoOptions[2]);
     frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 
     //initial delay is 0 sec
@@ -130,59 +124,41 @@ class Robot : public frc::TimedRobot {
     units::unit_t<units::time::second, double, units::linear_scale> secondsX(x);
 
 
-  if(selectedOption == "R_Mid"){
-    //MUST FACE THE DRIVER
-    if(m_timer.Get() < secondsX){
-      m_robotDrive.ArcadeDrive(0.0, 0.0, false);
+  if(selectedOption == "ShortGo"){
+    coneInt = true;
+    //ROBOT MUST FACE THE DRIVER
+    if(m_timer.Get() < secondsX){ // PERFECT VOLTAGE - 12.3 - 12.5
+      m_robotDrive.TankDrive(0, 0, false);
     }
-    else if(m_timer.Get() < 0.15_s + secondsX){
-      m_robotDrive.TankDrive(0.6, 0.6, false); 
+    else if(m_timer.Get() < 5_s + secondsX){
+      m_robotDrive.TankDrive(-0.6, -0.6, false);
     }
-    else if(m_timer.Get() < 1.3_s + secondsX){
-      m_robotDrive.TankDrive(-0.7, -0.7, false); //initially 0.9 
-    }
-    else if(m_timer.Get() < 1.35_s + secondsX){
-      m_robotDrive.TankDrive(0.8, 0.8, false); 
-    }
-    else if(m_timer.Get() < 1.7_s + secondsX){
-      m_robotDrive.TankDrive(0, 0, false); 
+    else if(m_timer.Get() < 15_s + secondsX){
+      m_robotDrive.TankDrive(0, 0, false);
     }
     else{
       m_robotDrive.TankDrive(0, 0, false);
     }
   }
 
-  else if (selectedOption == "TEST"){ //use with 12.5 voltage
+  else if (selectedOption == "LongGo"){ //use with 12.5 voltage
      coneInt = true;
     //ROBOT MUST FACE THE DRIVER
     if(m_timer.Get() < secondsX){ // PERFECT VOLTAGE - 12.3 - 12.5
       m_robotDrive.TankDrive(0, 0, false);
     }
-    else if(m_timer.Get() < 2_s + secondsX){
+    else if(m_timer.Get() < 5_s + secondsX){
+      m_robotDrive.TankDrive(-0.6, -0.6, false);
+    }
+    else if(m_timer.Get() < 15_s + secondsX){
       m_robotDrive.TankDrive(0, 0, false);
     }
-    else if(m_timer.Get() < 3_s + secondsX){
-    }
-    else if(m_timer.Get() < 4_s + secondsX){
-    }
-    else if(m_timer.Get() < 4.5_s + secondsX){
-      m_robotDrive.TankDrive(0, 0, false);
-    }
-    else if(m_timer.Get() < 6.5_s + secondsX){
-      m_robotDrive.TankDrive(0.5, 0.5, false); //should go backwards
-    }
-     else if(m_timer.Get() < 9_s + secondsX){
-       if(recangle > -70){
-       m_robotDrive.TankDrive(-0.45, 0.45, false);
-       }
-       else{
-         m_robotDrive.TankDrive(0, 0, false);
-       }
-     }
-    else if(m_timer.Get() < 15_s + secondsX){ 
+    else{
       m_robotDrive.TankDrive(0, 0, false);
     }
   }
+
+
   else if(selectedOption == "NONE"){
     if(m_timer.Get() < 1_s){
       m_robotDrive.TankDrive(0,0);
@@ -192,124 +168,6 @@ class Robot : public frc::TimedRobot {
     }
     else{
       m_robotDrive.TankDrive(0,0);
-    }
-  }
-  else if(selectedOption == "R_Left"){
-    //ROBOT MUST FACE THE DRIVER
-    if(m_timer.Get() < secondsX){ // PERFECT VOLTAGE - 12.3 - 12.5
-      m_robotDrive.ArcadeDrive(0.0, 0.0, false);
-    }
-    else if(m_timer.Get() < 0.15_s + secondsX){
-      m_robotDrive.TankDrive(-0.6, -0.6, false); 
-    }
-    else if(m_timer.Get() < 1.5_s + secondsX){
-      m_robotDrive.TankDrive(0.9, 0.9, false); //this is going between 0.15 and 1.2
-    }
-    else if(m_timer.Get() < 1.7_s + secondsX){
-      m_robotDrive.TankDrive(0, 0, false); 
-    }
-    else if(m_timer.Get() < 2_s + secondsX){
-      m_robotDrive.TankDrive(-0.65, 0.65, false); 
-    }
-    else if(m_timer.Get() < 2.6_s + secondsX){ //0.3sec to turn 90 degrees with speed 0.62
-      m_robotDrive.TankDrive(-0.6, -0.6, false); 
-    }
-    else if(m_timer.Get() < 3.1_s + secondsX){
-      m_robotDrive.TankDrive(0, 0, false); 
-    }
-    else if(m_timer.Get() < 3.4_s + secondsX){
-      m_robotDrive.TankDrive(0.57, -0.57, false); 
-    }
-    else if(m_timer.Get() < 5_s + secondsX){
-      m_robotDrive.TankDrive(-0.4, -0.4, false); //should go backwards
-    }
-    else{
-      m_robotDrive.TankDrive(0, 0, false);
-    }
-  }
-
-  else if(selectedOption == "IntakeBR"){
-    coneInt = true;
-    //ROBOT MUST FACE THE DRIVER
-    if(m_timer.Get() < secondsX){ // PERFECT VOLTAGE - 12.3 - 12.5
-      m_robotDrive.TankDrive(0, 0, false);
-    }
-    else if(m_timer.Get() < 2_s + secondsX){
-      m_robotDrive.TankDrive(0, 0, false);
-    }
-    else if(m_timer.Get() < 3_s + secondsX){
-    }
-    else if(m_timer.Get() < 4_s + secondsX){
-    }
-    else if(m_timer.Get() < 7_s + secondsX){
-      m_robotDrive.TankDrive(0.4, 0.4, false); //should go backwards
-    }
-  }
-
-  else if(selectedOption == "IntakeGOBR"){
-    coneInt = true;
-    //ROBOT MUST FACE THE DRIVER
-    if(m_timer.Get() < secondsX){ // PERFECT VOLTAGE - 12.3 - 12.5
-      m_robotDrive.TankDrive(0, 0, false);
-    }
-    else if(m_timer.Get() < 2_s + secondsX){
-      m_robotDrive.TankDrive(0, 0, false);
-    }
-    else if(m_timer.Get() < 3_s + secondsX){
-    }
-    else if(m_timer.Get() < 4_s + secondsX){
-    }
-    else if(m_timer.Get() < 7_s + secondsX){
-      m_robotDrive.TankDrive(0.45, 0.45, false); //should go backwards
-    }
-    else{
-      m_robotDrive.TankDrive(0, 0, false); 
-    }
-  }
-  else if(selectedOption == "IntakeGO"){
-    coneInt = true;
-    //ROBOT MUST FACE THE DRIVER
-    if(m_timer.Get() < secondsX){ // PERFECT VOLTAGE - 12.3 - 12.5
-      m_robotDrive.TankDrive(0, 0, false);
-    }
-    else if(m_timer.Get() < 2_s + secondsX){
-      m_robotDrive.TankDrive(0, 0, false);
-    }
-    else if(m_timer.Get() < 3_s + secondsX){
-    }
-    else if(m_timer.Get() < 4_s + secondsX){
-    }
-    else if(m_timer.Get() < 5.5_s + secondsX){
-      m_robotDrive.TankDrive(0.7, 0.7); //should go backwards
-    }
-    else if(m_timer.Get() < 15_s + secondsX){
-      m_robotDrive.TankDrive(0, 0);
-    }
-    else{
-      m_robotDrive.TankDrive(0, 0);
-    }
-  }
-  else if(selectedOption == "IntakeGOHARD"){
-    coneInt = true;
-    //ROBOT MUST FACE THE DRIVER
-    if(m_timer.Get() < secondsX){ // PERFECT VOLTAGE - 12.3 - 12.5
-      m_robotDrive.TankDrive(0, 0, false);
-    }
-    else if(m_timer.Get() < 2_s + secondsX){
-      m_robotDrive.TankDrive(0, 0, false);
-    }
-    else if(m_timer.Get() < 3_s + secondsX){
-    }
-    else if(m_timer.Get() < 4_s + secondsX){
-    }
-    else if(m_timer.Get() < 6_s + secondsX){
-      m_robotDrive.TankDrive(0.7, 0.7); //should go backwards
-    }
-    else if(m_timer.Get() < 15_s + secondsX){
-      m_robotDrive.TankDrive(0, 0);
-    }
-    else{
-      m_robotDrive.TankDrive(0, 0);
     }
   }
 }
